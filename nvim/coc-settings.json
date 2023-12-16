@@ -1,4 +1,15 @@
 {
-  "elixirLS.dialyzerEnabled": false,
-  "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh"
+	"languageserver": {
+		"lexical": {
+			"filetypes": [
+				"elixir",
+				"eelixir",
+				"heex"
+			],
+			"command": "/Users/kenzietandun/dev/lexical/_build/dev/package/lexical/bin/start_lexical.sh",
+			"rootPatterns": [ "mix.exs", ".git" ],
+			"initializationOptions": {},
+			"settings": {}
+		}
+	}
 }
