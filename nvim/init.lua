@@ -13,8 +13,8 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "        -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.vsnip_snippet_dir = vim.fn.expand("~/.config/nvim/snippets/")
 vim.opt.termguicolors = true -- Make sure to set this before bufferline
-vim.cmd 'colorscheme lunaperche'
 
 require("lazy").setup({
 	{
@@ -128,9 +128,49 @@ require("lazy").setup({
 		config = function()
 			require('lsp-progress').setup()
 		end
-	}
+	},
+	{
+		"chrisgrieser/nvim-scissors",
+		dependencies = "nvim-telescope/telescope.nvim", -- optional
+		opts = {
+			snippetDir = "~/.config/nvim/snippets",
+		}
+	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		config = function()
+			require('catppuccin').setup({
+				dim_inactive = {
+					enabled = false, -- dims the background color of inactive window
+					shade = "dark",
+					percentage = 0.15, -- percentage of the shade to apply to the inactive window
+				},
+				styles = {    -- Handles the styles of general hi groups (see `:h highlight-args`):
+					comments = { "italic" }, -- Change the style of comments
+					conditionals = { "italic" },
+					loops = {},
+					functions = {},
+					keywords = {},
+					strings = {},
+					variables = { "italic" },
+					numbers = {},
+					booleans = {},
+					properties = {},
+					types = {},
+					operators = {},
+					-- miscs = {}, -- Uncomment to turn off hard-coded styles
+				},
+				integrations = {
+					cmp = true,
+				},
+			})
+		end
+	},
 })
 
+vim.cmd.colorscheme "catppuccin"
 vim.wo.relativenumber = true
 vim.wo.cursorline = true
 vim.wo.so = 5
@@ -138,10 +178,24 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 
+vim.keymap.set("n", "<Esc>", ":nohl<CR>:echo<CR>")
 vim.keymap.set("n", "gn", ":bnext<CR>")
 vim.keymap.set("n", "gp", ":bprevious<CR>")
+vim.cmd [[
+  imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+  smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+  imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+  smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+]]
+
+
+-- nvim snippets with nvim-scissors
+vim.keymap.set("n", "<leader>se", function() require("scissors").editSnippet() end)
+-- When used in visual mode prefills the selection as body.
+vim.keymap.set({ "n", "x" }, "<leader>sa", function() require("scissors").addNewSnippet() end)
 
 -- LSP Servers
+local lspconfig = require('lspconfig')
 require 'lspconfig'.lua_ls.setup {
 	settings = {
 		Lua = {
@@ -161,6 +215,14 @@ require 'lspconfig'.volar.setup {
 	},
 }
 require 'lspconfig'.basedpyright.setup {}
+require 'lspconfig'.csharp_ls.setup {
+	-- specify root_dir, so lsp can find all solutions related to your workspace
+	root_dir = function(startpath)
+		return lspconfig.util.root_pattern("*.sln")(startpath)
+			or lspconfig.util.root_pattern("*.csproj")(startpath)
+			or lspconfig.util.root_pattern(".git")(startpath)
+	end,
+}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
