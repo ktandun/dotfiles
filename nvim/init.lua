@@ -137,6 +137,21 @@ require("lazy").setup({
 		}
 	},
 	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			local configs = require("nvim-treesitter.configs")
+
+			configs.setup({
+				ensure_installed = "all",
+				sync_install = false,
+				auto_install = false,
+				highlight = { enable = true },
+				indent = { enable = true },
+			})
+		end
+	},
+	{
 		"catppuccin/nvim",
 		name = "catppuccin",
 		priority = 1000,
@@ -151,10 +166,10 @@ require("lazy").setup({
 					comments = { "italic" }, -- Change the style of comments
 					conditionals = { "italic" },
 					loops = {},
-					functions = {},
+					functions = { "bold" },
 					keywords = {},
-					strings = {},
-					variables = { "italic" },
+					strings = { "bold" },
+					variables = {},
 					numbers = {},
 					booleans = {},
 					properties = {},
