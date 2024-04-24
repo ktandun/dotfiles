@@ -63,6 +63,21 @@ require("lazy").setup({
 			})
 		end
 	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		config = function()
+			local mason = require 'mason-lspconfig'
+			mason.setup({
+				ensure_installed = {
+					"lua_ls",
+					"volar",
+					"basedpyright",
+					"csharp_ls",
+					"tsserver",
+				}
+			})
+		end
+	},
 	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "hrsh7th/cmp-buffer" },
 	{ "hrsh7th/cmp-path" },
@@ -194,6 +209,8 @@ vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 
 vim.keymap.set("n", "<Esc>", ":nohl<CR>:echo<CR>")
+vim.keymap.set("n", "<leader>c", ":e ~/.config/nvim/init.lua<CR>")
+vim.keymap.set("n", "<leader>z", ":e ~/.zshrc<CR>")
 vim.keymap.set("n", "gn", ":bnext<CR>")
 vim.keymap.set("n", "gp", ":bprevious<CR>")
 vim.cmd [[
