@@ -69,6 +69,8 @@ require("lazy").setup({
 			local mason = require 'mason-lspconfig'
 			mason.setup({
 				ensure_installed = {
+					"cssls",
+					"bashls",
 					"lua_ls",
 					"volar",
 					"basedpyright",
@@ -210,6 +212,7 @@ vim.opt.tabstop = 4
 vim.opt.mouse = ""
 vim.opt.timeoutlen = 200
 
+vim.keymap.set("i", "{", "{}<Esc>ha")
 vim.keymap.set("n", "<Esc>", ":nohl<CR>:echo<CR>")
 vim.keymap.set("n", "<leader>c", ":e ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>z", ":e ~/.zshrc<CR>")
@@ -230,6 +233,8 @@ vim.keymap.set({ "n", "x" }, "<leader>sa", function() require("scissors").addNew
 
 -- LSP Servers
 local lspconfig = require('lspconfig')
+require 'lspconfig'.cssls.setup {}
+require 'lspconfig'.bashls.setup {}
 require 'lspconfig'.lua_ls.setup {
 	settings = {
 		Lua = {
