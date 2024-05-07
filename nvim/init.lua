@@ -212,7 +212,7 @@ vim.opt.tabstop = 4
 vim.opt.mouse = ""
 vim.opt.timeoutlen = 200
 
-vim.keymap.set("i", "{", "{}<Esc>ha")
+vim.keymap.set("i", "{", "{<CR>}<Esc>O")
 vim.keymap.set("n", "<Esc>", ":nohl<CR>:echo<CR>")
 vim.keymap.set("n", "<leader>c", ":e ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>z", ":e ~/.zshrc<CR>")
