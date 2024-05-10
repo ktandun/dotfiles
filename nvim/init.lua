@@ -72,7 +72,6 @@ require("lazy").setup({
 					"cssls",
 					"bashls",
 					"lua_ls",
-					"volar",
 					"basedpyright",
 					"csharp_ls",
 					"tsserver",
@@ -114,7 +113,7 @@ require("lazy").setup({
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.6',
 		-- or                              , branch = '0.1.x',
-		dependencies = { 'nvim-lua/plenary.nvim' },
+		dependencies = { 'nvim-lua/plenary.nvim', 'BurntSushi/ripgrep' },
 		config = function()
 			local builtin = require('telescope.builtin')
 			vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
@@ -130,11 +129,9 @@ require("lazy").setup({
 			local lualine = require 'lualine'
 			lualine.setup({
 				sections = {
+					lualine_a = {},
 					lualine_c = {
-						-- invoke `progress` here.
-						function()
-							return require('lsp-progress').progress()
-						end,
+						'filename'
 					},
 				}
 			})
@@ -211,6 +208,7 @@ vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.mouse = ""
 vim.opt.timeoutlen = 200
+vim.opt.signcolumn = 'yes:1'
 
 vim.keymap.set("i", "{", "{<CR>}<Esc>O")
 vim.keymap.set("n", "<Esc>", ":nohl<CR>:echo<CR>")
