@@ -12,9 +12,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-vim.g.mapleader = " "        -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.g.vsnip_snippet_dir = vim.fn.expand("~/.config/nvim/snippets/")
-vim.opt.termguicolors = true -- Make sure to set this before bufferline
+vim.opt.termguicolors = true
 
 require("lazy").setup({
 	{
@@ -39,15 +39,48 @@ require("lazy").setup({
 		-- Optional dependencies
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
-	{
-		'akinsho/bufferline.nvim',
-		version = "*",
-		dependencies = 'nvim-tree/nvim-web-devicons',
-		config = function()
-			require("bufferline").setup()
-		end,
-	},
 	{ "neovim/nvim-lspconfig" },
+	{
+		'mhartington/formatter.nvim',
+		config = function()
+			local util = require "formatter.util"
+			-- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
+			require("formatter").setup {
+				-- Enable or disable logging
+				logging = true,
+				-- Set the log level
+				log_level = vim.log.levels.WARN,
+				-- All formatter configurations are opt-in
+				filetype = {
+					-- Formatter configurations for filetype "lua" go here
+					-- and will be executed in order
+					typescriptreact = {
+						-- You can also define your own configuration
+						function()
+							-- Full specification of configurations is down below and in Vim help
+							-- files
+							return {
+								exe = "biome",
+								args = {
+									"format",
+									"--stdin-file-path=" .. util.escape_path(util.get_current_buffer_file_path()),
+								},
+								stdin = true,
+							}
+						end
+					},
+
+					-- Use the special "*" filetype for defining formatter configurations on
+					-- any filetype
+					["*"] = {
+						-- "formatter.filetypes.any" defines default configurations for any
+						-- filetype
+						require("formatter.filetypes.any").remove_trailing_whitespace
+					}
+				}
+			}
+		end
+	},
 	{
 		"williamboman/mason.nvim",
 		config = function()
@@ -117,8 +150,8 @@ require("lazy").setup({
 		config = function()
 			local builtin = require('telescope.builtin')
 			vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-			vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-			vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+			vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
+			vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 			vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, {})
 		end
 	},
@@ -200,14 +233,16 @@ require("lazy").setup({
 })
 
 vim.cmd.colorscheme "catppuccin"
+
 vim.wo.relativenumber = true
 vim.wo.cursorline = true
 vim.wo.so = 5
+
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.mouse = ""
-vim.opt.timeoutlen = 200
+vim.opt.timeoutlen = 300
 vim.opt.signcolumn = 'yes:1'
 
 vim.keymap.set("i", "{", "{<CR>}<Esc>O")
@@ -217,12 +252,30 @@ vim.keymap.set("n", "<leader>z", ":e ~/.zshrc<CR>")
 vim.keymap.set("n", "gn", ":bnext<CR>")
 vim.keymap.set("n", "gp", ":bprevious<CR>")
 vim.cmd [[
-  imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-  smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-  imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-  smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+  imap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
+  smap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
+  imap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
+  smap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
 ]]
 
+local function get_directory_path_with_dots(path)
+	-- Define a pattern to match the directory path
+	local pattern = "(.*)/[^/]+$"
+	-- Use string.match to extract the directory path
+	local directory_path = string.match(path, pattern)
+	-- Replace slashes with dots
+	directory_path = string.gsub(directory_path, "/", ".")
+	return directory_path
+end
+
+function WriteNamespace()
+	-- Get the directory name
+	local directory_name = get_directory_path_with_dots(vim.fn.expand('%'))
+	-- Write the directory name to the current buffer
+	vim.fn.append(".", "namespace " .. directory_name .. ";")
+end
+
+vim.keymap.set("n", "<leader>ns", "<cmd>lua WriteNamespace()<CR>")
 
 -- nvim snippets with nvim-scissors
 vim.keymap.set("n", "<leader>se", function() require("scissors").editSnippet() end)
@@ -256,9 +309,9 @@ require 'lspconfig'.csharp_ls.setup {
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<F7>', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<F8>', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<F12>', ':FormatWrite<CR>')
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
@@ -283,7 +336,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end, opts)
 		vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
 		vim.keymap.set('n', 'gr', vim.lsp.buf.rename, opts)
-		vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+		vim.keymap.set({ 'n', 'v' }, '<leader>.', vim.lsp.buf.code_action, opts)
 		vim.keymap.set('n', 'gR', vim.lsp.buf.references, opts)
 		vim.keymap.set('n', '<leader>f', function()
 			vim.lsp.buf.format { async = true }
