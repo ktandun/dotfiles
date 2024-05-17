@@ -149,7 +149,7 @@ require("lazy").setup({
 		dependencies = { 'nvim-lua/plenary.nvim', 'BurntSushi/ripgrep' },
 		config = function()
 			local builtin = require('telescope.builtin')
-			vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+			vim.keymap.set('n', '<leader>f', builtin.find_files, {})
 			vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
 			vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 			vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, {})
@@ -198,41 +198,7 @@ require("lazy").setup({
 			})
 		end
 	},
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		priority = 1000,
-		config = function()
-			require('catppuccin').setup({
-				dim_inactive = {
-					enabled = false, -- dims the background color of inactive window
-					shade = "dark",
-					percentage = 0.15, -- percentage of the shade to apply to the inactive window
-				},
-				styles = {    -- Handles the styles of general hi groups (see `:h highlight-args`):
-					comments = { "italic" }, -- Change the style of comments
-					conditionals = { "italic" },
-					loops = {},
-					functions = { "bold" },
-					keywords = {},
-					strings = { "bold" },
-					variables = {},
-					numbers = {},
-					booleans = {},
-					properties = {},
-					types = {},
-					operators = {},
-					-- miscs = {}, -- Uncomment to turn off hard-coded styles
-				},
-				integrations = {
-					cmp = true,
-				},
-			})
-		end
-	},
 })
-
-vim.cmd.colorscheme "catppuccin"
 
 vim.wo.relativenumber = true
 vim.wo.cursorline = true
@@ -338,8 +304,5 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', 'gr', vim.lsp.buf.rename, opts)
 		vim.keymap.set({ 'n', 'v' }, '<leader>.', vim.lsp.buf.code_action, opts)
 		vim.keymap.set('n', 'gR', vim.lsp.buf.references, opts)
-		vim.keymap.set('n', '<leader>f', function()
-			vim.lsp.buf.format { async = true }
-		end, opts)
 	end,
 })

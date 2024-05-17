@@ -9,3 +9,5 @@ rm -rf ~/.config/alacritty &&
 	stow alacritty -t ~/.config/alacritty
 
  brew tap homebrew/cask-fonts && brew install --cask font-jetbrains-mono-nerd-font
+
+ brew tap isen-ng/dotnet-sdk-versions && brew install --cask dotnet-sdk8-0-200
