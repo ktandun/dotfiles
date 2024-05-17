@@ -1,3 +1,4 @@
+vim.cmd [[ colorscheme darkblue ]]
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -71,11 +72,12 @@ require("lazy").setup({
                             }
                         end
                     },
-                    csharpier = {
+                    cs = {
                         function()
                             return {
                                 exe = "dotnet-csharpier",
                                 args = {
+                                    "--write-stdout",
                                     util.escape_path(
                                         util.get_current_buffer_file_path())
                                 },
@@ -113,10 +115,8 @@ require("lazy").setup({
                 ensure_installed = {
                     "bashls",
                     "lua_ls",
-                    "luaformatter",
                     "basedpyright",
                     "csharp_ls",
-                    "csharpier",
                     "tsserver"
                 }
             })
@@ -174,10 +174,6 @@ require("lazy").setup({
                 sections = {lualine_a = {}, lualine_c = {'filename'}}
             })
         end
-    },
-    {
-        'linrongbin16/lsp-progress.nvim',
-        config = function() require('lsp-progress').setup() end
     },
     {
         "chrisgrieser/nvim-scissors",
