@@ -1,4 +1,4 @@
-vim.cmd [[ colorscheme slate ]]
+vim.cmd [[ colorscheme quiet ]]
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
@@ -19,6 +19,9 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
+	{
+		'tpope/vim-fugitive'
+	},
     {
         'vhyrro/luarocks.nvim',
         priority = 1000,
