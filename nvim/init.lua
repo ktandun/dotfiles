@@ -119,6 +119,18 @@ require('lazy').setup({
                             }
                         end
                     },
+                    python = {
+                        function()
+                            return {
+                                exe = 'black',
+                                args = {
+                                    '-q',
+                                    '-'
+                                },
+                                stdin = true
+                            }
+                        end
+                    },
                     ['*'] = {
                         require('formatter.filetypes.any').remove_trailing_whitespace
                     }
