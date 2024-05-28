@@ -1,4 +1,4 @@
-vim.cmd [[ colorscheme quiet ]]
+vim.cmd [[ colorscheme default ]]
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
@@ -245,7 +245,7 @@ require('lazy').setup({
     }
 }, {
     performance = { rtp = { disabled_plugins = { 'matchparen' } } },
-    checker = { enabled = true, notify = true },
+    checker = { enabled = false, notify = true },
     change_detection = {
         -- automatically check for config file changes and reload the ui
         enabled = true,
