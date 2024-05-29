@@ -199,6 +199,19 @@ require('lazy').setup({
         -- or                              , branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim', 'BurntSushi/ripgrep' },
         config = function()
+            -- telescope
+            require('telescope').setup({
+                defaults = {
+                    layout_strategy = 'vertical',
+                    layout_config = {
+                        vertical = { width = 0.8 }
+                        -- other layout configuration here
+                    }
+                    -- other defaults configuration here
+                }
+                -- other configuration values here
+            })
+
             local builtin = require('telescope.builtin')
 
             vim.keymap.set('n', '<leader>f', builtin.find_files, {})
@@ -301,19 +314,6 @@ end)
 vim.keymap.set({ 'n', 'x' }, '<leader>sa', function()
     require('scissors').addNewSnippet()
 end)
-
--- telescope
-require('telescope').setup({
-    defaults = {
-        layout_strategy = 'vertical',
-        layout_config = {
-            vertical = { width = 0.8 }
-            -- other layout configuration here
-        }
-        -- other defaults configuration here
-    }
-    -- other configuration values here
-})
 
 -- LSP Servers
 
