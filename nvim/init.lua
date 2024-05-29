@@ -19,9 +19,7 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
-	{
-		'tpope/vim-fugitive'
-	},
+    { 'tpope/vim-fugitive' },
     {
         'vhyrro/luarocks.nvim',
         priority = 1000,
@@ -123,10 +121,7 @@ require('lazy').setup({
                         function()
                             return {
                                 exe = 'black',
-                                args = {
-                                    '-q',
-                                    '-'
-                                },
+                                args = { '-q', '-' },
                                 stdin = true
                             }
                         end
@@ -207,7 +202,9 @@ require('lazy').setup({
             local builtin = require('telescope.builtin')
 
             vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-            vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
+            vim.keymap.set('n', '<leader>g', function()
+                builtin.live_grep({ additional_args = { '--hidden' } })
+            end, {})
             vim.keymap.set('n', '<leader>b', builtin.buffers, {})
             vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, {})
             vim.keymap.set('n', 'gR', builtin.lsp_references, {})
@@ -264,7 +261,7 @@ vim.opt.mouse = ''
 vim.opt.timeoutlen = 300
 vim.opt.signcolumn = 'yes:1'
 
-vim.keymap.set('i', '{', '{<CR>}<Esc>O')
+vim.keymap.set('i', '{', '{}<Esc>i')
 vim.keymap.set('n', '<Esc>', ':nohl<CR>:echo<CR>')
 vim.keymap.set('n', '<leader>c', ':e ~/.config/nvim/init.lua<CR>')
 vim.keymap.set('n', '<leader>z', ':e ~/.zshrc<CR>')
