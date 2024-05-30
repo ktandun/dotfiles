@@ -236,12 +236,29 @@ require('lazy').setup({
             local builtin = require('telescope.builtin')
 
             vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-            vim.keymap.set('n', '<leader>g', function()
-                builtin.live_grep({ additional_args = { '--hidden' } })
-            end, {})
             vim.keymap.set('n', '<leader>b', builtin.buffers, {})
             vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, {})
             vim.keymap.set('n', 'gR', builtin.lsp_references, {})
+
+            local default_livegrep_args = { '--hidden' }
+
+            vim.keymap.set('n', '<leader>g', function()
+                builtin.live_grep({ additional_args = default_livegrep_args })
+            end, {})
+            vim.keymap.set('n', '<leader>4', function()
+                local word = vim.fn.expand('<cword>')
+                builtin.live_grep({
+                    additional_args = default_livegrep_args,
+                    default_text = word
+                })
+            end, {})
+            vim.keymap.set('v', '<leader>4', function()
+                local word = vim.fn.expand('<cword>')
+                builtin.live_grep({
+                    additional_args = default_livegrep_args,
+                    default_text = word
+                })
+            end, {})
         end
     },
     {
