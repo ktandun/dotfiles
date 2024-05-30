@@ -193,6 +193,7 @@ require('lazy').setup({
             }
         end
     },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.6',
@@ -200,7 +201,8 @@ require('lazy').setup({
         dependencies = { 'nvim-lua/plenary.nvim', 'BurntSushi/ripgrep' },
         config = function()
             -- telescope
-            require('telescope').setup({
+            local telescope = require('telescope')
+            telescope.setup({
                 defaults = {
                     layout_strategy = 'vertical',
                     layout_config = {
@@ -208,9 +210,19 @@ require('lazy').setup({
                         -- other layout configuration here
                     }
                     -- other defaults configuration here
+                },
+                extensions = {
+                    fzf = {
+                        fuzzy = true,
+                        override_generic_sorter = true,
+                        override_file_sorter = true,
+                        case_mode = 'smart_case'
+                    }
                 }
                 -- other configuration values here
             })
+
+            telescope.load_extension('fzf')
 
             local builtin = require('telescope.builtin')
 
