@@ -19,12 +19,13 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
+    { 'vimpostor/vim-lumen' },
     {
         'NeogitOrg/neogit',
         dependencies = {
             'nvim-lua/plenary.nvim', -- required
             'sindrets/diffview.nvim', -- optional - Diff integration
-            'nvim-telescope/telescope.nvim', -- optional
+            'nvim-telescope/telescope.nvim' -- optional
         },
         config = true
     },
@@ -283,23 +284,23 @@ require('lazy').setup({
     }
 })
 
-vim.wo.relativenumber = true
-vim.wo.cursorline = true
-vim.wo.so = 5
-
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
+vim.opt.cursorline = true
 vim.opt.mouse = ''
-vim.opt.timeoutlen = 300
+vim.opt.relativenumber = true
+vim.opt.shiftwidth = 4
 vim.opt.signcolumn = 'yes:1'
+vim.opt.so = 5
+vim.opt.tabstop = 4
+vim.opt.tabstop = 4
+vim.opt.timeoutlen = 300
 
-vim.keymap.set('i', '{', '{}<Esc>i')
+vim.keymap.set('i', '{', '{  }<Esc>i<Left>')
 vim.keymap.set('n', '<Esc>', ':nohl<CR>:echo<CR>')
 vim.keymap.set('n', '<leader>c', ':e ~/.config/nvim/init.lua<CR>')
 vim.keymap.set('n', '<leader>z', ':e ~/.zshrc<CR>')
 vim.keymap.set('n', 'gn', ':bnext<CR>')
 vim.keymap.set('n', 'gp', ':bprevious<CR>')
+
 vim.cmd [[
   imap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
   smap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
