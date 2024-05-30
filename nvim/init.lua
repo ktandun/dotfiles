@@ -19,7 +19,15 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
-    { 'tpope/vim-fugitive' },
+    {
+        'NeogitOrg/neogit',
+        dependencies = {
+            'nvim-lua/plenary.nvim', -- required
+            'sindrets/diffview.nvim', -- optional - Diff integration
+            'nvim-telescope/telescope.nvim', -- optional
+        },
+        config = true
+    },
     {
         'vhyrro/luarocks.nvim',
         priority = 1000,
