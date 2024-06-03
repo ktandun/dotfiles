@@ -19,6 +19,97 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
+    {
+        'echasnovski/mini.nvim',
+        version = '*',
+        config = function()
+            require('mini.indentscope').setup()
+            require('mini.jump').setup()
+            require('mini.trailspace').setup()
+            require('mini.surround').setup( -- No need to copy this inside `setup()`. Will be used automatically.
+            {
+                -- Add custom surroundings to be used on top of builtin ones. For more
+                -- information with examples, see `:h MiniSurround.config`.
+                custom_surroundings = nil,
+
+                -- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
+                highlight_duration = 1000,
+
+                -- Module mappings. Use `''` (empty string) to disable one.
+                mappings = {
+                    add = 'sa', -- Add surrounding in Normal and Visual modes
+                    delete = 'sd', -- Delete surrounding
+                    find = 'sf', -- Find surrounding (to the right)
+                    find_left = 'sF', -- Find surrounding (to the left)
+                    replace = 'sr' -- Replace surrounding
+                }
+            })
+            require('mini.pairs').setup({
+                -- In which modes mappings from this `config` should be created
+                modes = { insert = true, command = false, terminal = false },
+
+                -- Global mappings. Each right hand side should be a pair information, a
+                -- table with at least these fields (see more in |MiniPairs.map|):
+                -- - <action> - one of 'open', 'close', 'closeopen'.
+                -- - <pair> - two character string for pair to be used.
+                -- By default pair is not inserted after `\`, quotes are not recognized by
+                -- `<CR>`, `'` does not insert pair after a letter.
+                -- Only parts of tables can be tweaked (others will use these defaults).
+                mappings = {
+                    ['('] = {
+                        action = 'open',
+                        pair = '()',
+                        neigh_pattern = '[^\\].'
+                    },
+                    ['['] = {
+                        action = 'open',
+                        pair = '[]',
+                        neigh_pattern = '[^\\].'
+                    },
+                    ['{'] = {
+                        action = 'open',
+                        pair = '{}',
+                        neigh_pattern = '[^\\].'
+                    },
+
+                    [')'] = {
+                        action = 'close',
+                        pair = '()',
+                        neigh_pattern = '[^\\].'
+                    },
+                    [']'] = {
+                        action = 'close',
+                        pair = '[]',
+                        neigh_pattern = '[^\\].'
+                    },
+                    ['}'] = {
+                        action = 'close',
+                        pair = '{}',
+                        neigh_pattern = '[^\\].'
+                    },
+
+                    ['"'] = {
+                        action = 'closeopen',
+                        pair = '""',
+                        neigh_pattern = '[^\\].',
+                        register = { cr = false }
+                    },
+                    ['\''] = {
+                        action = 'closeopen',
+                        pair = '\'\'',
+                        neigh_pattern = '[^%a\\].',
+                        register = { cr = false }
+                    },
+                    ['`'] = {
+                        action = 'closeopen',
+                        pair = '``',
+                        neigh_pattern = '[^\\].',
+                        register = { cr = false }
+                    }
+                }
+            })
+        end
+    },
     { 'vimpostor/vim-lumen' },
     {
         'NeogitOrg/neogit',
@@ -313,7 +404,6 @@ vim.opt.tabstop = 4
 vim.opt.tabstop = 4
 vim.opt.timeoutlen = 300
 
-vim.keymap.set('i', '{', '{  }<Esc>i<Left>')
 vim.keymap.set('n', '<Esc>', ':nohl<CR>:echo<CR>')
 vim.keymap.set('n', '<leader>c', ':e ~/.config/nvim/init.lua<CR>')
 vim.keymap.set('n', '<leader>z', ':e ~/.zshrc<CR>')
