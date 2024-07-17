@@ -1,5 +1,3 @@
-vim.cmd [[ colorscheme default ]]
-
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -19,6 +17,15 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
+    {
+        'sainnhe/gruvbox-material',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.g.gruvbox_material_enable_italic = true
+            vim.cmd.colorscheme('gruvbox-material')
+        end
+    },
     {
         'echasnovski/mini.nvim',
         version = '*',
@@ -125,34 +132,6 @@ require('lazy').setup({
         priority = 1000,
         config = true,
         opts = { rocks = { 'lua-curl', 'nvim-nio', 'mimetypes', 'xml2lua' } }
-    },
-    {
-        'rest-nvim/rest.nvim',
-        ft = 'http',
-        dependencies = { 'luarocks.nvim' },
-        config = function()
-            require('rest-nvim').setup({
-                env_file = '.env',
-                result = {
-                    split = { in_place = true },
-                    behavior = {
-                        decode_url = true,
-                        show_info = {
-                            url = true,
-                            headers = true,
-                            http_info = true,
-                            curl_command = true
-                        }
-                    }
-                }
-            })
-
-            -- rest.nvim
-            vim.cmd [[
-			  nnoremap <leader>rr :Rest run<CR>
-			  nnoremap <leader>rl :Rest run last<CR>
-			]]
-        end
     },
     {
         'stevearc/oil.nvim',
