@@ -277,6 +277,23 @@ require('lazy').setup({
             })
         end
     }, {
+        'windwp/nvim-ts-autotag',
+        dependencies = 'nvim-treesitter/nvim-treesitter',
+        config = function()
+            require('nvim-ts-autotag').setup({
+                opts = {
+                    -- Defaults
+                    enable_close = true, -- Auto close tags
+                    enable_rename = true, -- Auto rename pairs of tags
+                    enable_close_on_slash = false -- Auto close on trailing </
+                },
+                -- Also override individual filetype configs, these take priority.
+                -- Empty by default, useful if one of the "opts" global settings
+                -- doesn't work well in a specific filetype
+                per_filetype = {["html"] = {enable_close = false}}
+            })
+        end
+    }, {
         'nvim-treesitter/nvim-treesitter-textobjects',
         dependencies = 'nvim-treesitter/nvim-treesitter',
         config = function()
@@ -361,14 +378,6 @@ vim.cmd [[
   imap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
   smap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
 ]]
-
--- Format .vue files on save
-vim.api.nvim_exec([[
-  augroup fmt
-	autocmd!
-	autocmd BufWritePre *.vue,*.ts undojoin | Neoformat
-  augroup END
-]], false)
 
 local function get_directory_path_with_dots(path)
     -- Define a pattern to match the directory path

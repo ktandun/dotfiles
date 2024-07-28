@@ -14,3 +14,8 @@ brew install luarocks
 
 brew tap isen-ng/dotnet-sdk-versions && \
 	brew install --cask dotnet-sdk8-0-200
+
+# install plugin to let tsserver understand vue files
+mkdir -p "~/.local/share/nvim/mason/packages" && \
+	cd "~/.local/share/nvim/mason/packages" && \
+	npm install --prefix vue-typescript-plugin @vue/typescript-plugin
