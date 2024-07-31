@@ -18,9 +18,7 @@ vim.opt.termguicolors = true
 require('lazy').setup({
     {
         'Mofiqul/dracula.nvim',
-        config = function()
-            vim.cmd.colorscheme('dracula')
-        end
+        config = function() vim.cmd.colorscheme('dracula') end
     }, {
         'echasnovski/mini.nvim',
         version = '*',
@@ -157,7 +155,7 @@ require('lazy').setup({
             mason.setup({
                 ensure_installed = {
                     'bashls', 'lua_ls', 'biome', 'tailwindcss', 'basedpyright',
-                    'csharp_ls', 'tsserver', 'volar'
+                    'tsserver', 'volar'
                 }
             })
         end
@@ -440,16 +438,6 @@ require'lspconfig'.tsserver.setup {
 require'lspconfig'.basedpyright.setup {
     capabilities = capabilities,
     settings = {basedpyright = {analysis = {typeCheckingMode = 'basic'}}}
-}
-
-require'lspconfig'.csharp_ls.setup {
-    -- specify root_dir, so lsp can find all solutions related to your workspace
-    capabilities = capabilities,
-    root_dir = function(startpath)
-        return lspconfig.util.root_pattern('*.sln')(startpath) or
-                   lspconfig.util.root_pattern('*.csproj')(startpath) or
-                   lspconfig.util.root_pattern('.git')(startpath)
-    end
 }
 
 require'lspconfig'.volar.setup {
