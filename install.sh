@@ -8,9 +8,14 @@ rm -rf ~/.config/alacritty && \
 	mkdir -p ~/.config/alacritty && \
 	stow alacritty -t ~/.config/alacritty
 
+rm -rf ~/.tmux.conf && \
+	stow tmux -t ~/
+
 brew install font-jetbrains-mono-nerd-font
 brew install cmake
 brew install luarocks
+
+brew install tmux
 
 brew tap isen-ng/dotnet-sdk-versions && \
 	brew install --cask dotnet-sdk8-0-200

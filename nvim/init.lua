@@ -451,6 +451,7 @@ vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
 vim.keymap.set('n', '<F7>', vim.diagnostic.goto_prev)
 vim.keymap.set('n', '<F8>', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<F12>', ':Neoformat<CR>')
+vim.keymap.set('v', 'gr', ':.w !bash<CR>') -- run highlighted command in bash
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
