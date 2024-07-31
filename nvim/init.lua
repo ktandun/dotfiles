@@ -17,12 +17,9 @@ vim.opt.termguicolors = true
 
 require('lazy').setup({
     {
-        'sainnhe/gruvbox-material',
-        lazy = false,
-        priority = 1000,
+        'Mofiqul/dracula.nvim',
         config = function()
-            vim.g.gruvbox_material_enable_italic = true
-            vim.cmd.colorscheme('gruvbox-material')
+            vim.cmd.colorscheme('dracula')
         end
     }, {
         'echasnovski/mini.nvim',
@@ -31,8 +28,7 @@ require('lazy').setup({
             require('mini.indentscope').setup()
             require('mini.jump').setup()
             require('mini.trailspace').setup()
-            require('mini.surround').setup( -- No need to copy this inside `setup()`. Will be used automatically.
-            {
+            require('mini.surround').setup({
                 -- Add custom surroundings to be used on top of builtin ones. For more
                 -- information with examples, see `:h MiniSurround.config`.
                 custom_surroundings = nil,
