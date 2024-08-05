@@ -24,3 +24,6 @@ brew tap isen-ng/dotnet-sdk-versions && \
 mkdir -p "~/.local/share/nvim/mason/packages" && \
 	cd "~/.local/share/nvim/mason/packages" && \
 	npm install --prefix vue-typescript-plugin @vue/typescript-plugin
+
+# install plugin manager for tmux
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
