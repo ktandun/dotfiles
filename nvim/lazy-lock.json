@@ -27,6 +27,7 @@
   "ripgrep": { "branch": "master", "commit": "af8c386d5e10eaa4b8cb687c4f5b05893a7ae0ce" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "cf48d4dfce44e0b9a2e19a008d6ec6ea6f01a83b" },
   "telescope.nvim": { "branch": "master", "commit": "6312868392331c9c0f22725041f1ec2bef57c751" },
+  "trouble.nvim": { "branch": "main", "commit": "6efc446226679fda0547c0fd6a7892fd5f5b15d8" },
   "vim-lumen": { "branch": "master", "commit": "7ba6ee2c91acf294c62eaef7e4213d1c21a52db6" },
   "vim-vsnip": { "branch": "master", "commit": "02a8e79295c9733434aab4e0e2b8c4b7cea9f3a9" }
 }
