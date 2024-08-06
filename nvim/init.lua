@@ -49,7 +49,21 @@ require('lazy').setup({
         }
     }, {
         'Mofiqul/dracula.nvim',
-        config = function() vim.cmd.colorscheme('dracula') end
+        priority = 1,
+        config = function() vim.cmd.colorscheme('morning') end
+    }, {
+        "f-person/auto-dark-mode.nvim",
+        opts = {
+            update_interval = 2000,
+            set_dark_mode = function()
+                vim.api.nvim_set_option_value("background", "dark", {})
+                vim.cmd("colorscheme dracula")
+            end,
+            set_light_mode = function()
+                vim.api.nvim_set_option_value("background", "light", {})
+                vim.cmd("colorscheme morning")
+            end
+        }
     }, {
         'goolord/alpha-nvim',
         event = "VimEnter",
