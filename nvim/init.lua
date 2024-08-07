@@ -61,7 +61,7 @@ require('lazy').setup({
             end,
             set_light_mode = function()
                 vim.api.nvim_set_option_value("background", "light", {})
-                vim.cmd("colorscheme morning")
+                vim.cmd("colorscheme vim")
             end
         }
     }, {
