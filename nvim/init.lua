@@ -48,11 +48,7 @@ require('lazy').setup({
                 desc = "Quickfix List (Trouble)"
             }
         }
-    }, {
-        'Mofiqul/dracula.nvim',
-        priority = 1,
-        config = function() vim.cmd.colorscheme('morning') end
-    }, {
+    }, {'Mofiqul/dracula.nvim'}, {
         "f-person/auto-dark-mode.nvim",
         opts = {
             update_interval = 2000,
@@ -101,6 +97,11 @@ require('lazy').setup({
             require('mini.indentscope').setup()
             require('mini.jump').setup()
             require('mini.trailspace').setup()
+
+            local miniMap = require('mini.map')
+            miniMap.setup()
+            vim.keymap.set('n', '<Leader>mt', miniMap.toggle)
+
             require('mini.surround').setup({
                 -- Add custom surroundings to be used on top of builtin ones. For more
                 -- information with examples, see `:h MiniSurround.config`.
