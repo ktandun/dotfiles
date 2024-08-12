@@ -306,9 +306,14 @@ require('lazy').setup({
 
             local default_livegrep_args = {'--hidden'}
 
+            vim.keymap.set('n', '<leader>1', function()
+                builtin.resume()
+            end, {noremap = true, silent = true})
+
             vim.keymap.set('n', '<leader>3', function()
                 builtin.live_grep({additional_args = default_livegrep_args})
             end, {})
+
             vim.keymap.set({'n', 'v'}, '<leader>4', function()
                 local word = vim.fn.expand('<cword>')
                 builtin.live_grep({
