@@ -200,7 +200,7 @@ require('lazy').setup({
     }, {
         'stevearc/oil.nvim',
         keys = {{'<leader>o', '<cmd>Oil<cr>', desc = 'Oil'}},
-        opts = {},
+        opts = {skip_confirm_for_simple_edits = true},
         -- Optional dependencies
         dependencies = {'nvim-tree/nvim-web-devicons'}
     }, {'neovim/nvim-lspconfig'}, {
@@ -306,17 +306,10 @@ require('lazy').setup({
 
             local default_livegrep_args = {'--hidden'}
 
-            vim.keymap.set('n', '<leader>g', function()
+            vim.keymap.set('n', '<leader>3', function()
                 builtin.live_grep({additional_args = default_livegrep_args})
             end, {})
-            vim.keymap.set('n', '<leader>4', function()
-                local word = vim.fn.expand('<cword>')
-                builtin.live_grep({
-                    additional_args = default_livegrep_args,
-                    default_text = word
-                })
-            end, {})
-            vim.keymap.set('v', '<leader>4', function()
+            vim.keymap.set({'n', 'v'}, '<leader>4', function()
                 local word = vim.fn.expand('<cword>')
                 builtin.live_grep({
                     additional_args = default_livegrep_args,
