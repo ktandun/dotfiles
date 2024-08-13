@@ -17,38 +17,7 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
-    {
-        "folke/trouble.nvim",
-        opts = {}, -- for default options, refer to the configuration section for custom setup.
-        cmd = "Trouble",
-        keys = {
-            {
-                "<leader>xx",
-                "<cmd>Trouble diagnostics toggle<cr>",
-                desc = "Diagnostics (Trouble)"
-            }, {
-                "<leader>xX",
-                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-                desc = "Buffer Diagnostics (Trouble)"
-            }, {
-                "<leader>cs",
-                "<cmd>Trouble symbols toggle focus=false<cr>",
-                desc = "Symbols (Trouble)"
-            }, {
-                "<leader>cl",
-                "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-                desc = "LSP Definitions / references / ... (Trouble)"
-            }, {
-                "<leader>xL",
-                "<cmd>Trouble loclist toggle<cr>",
-                desc = "Location List (Trouble)"
-            }, {
-                "<leader>xQ",
-                "<cmd>Trouble qflist toggle<cr>",
-                desc = "Quickfix List (Trouble)"
-            }
-        }
-    }, {'Mofiqul/dracula.nvim'}, {
+    {'Mofiqul/dracula.nvim'}, {
         "f-person/auto-dark-mode.nvim",
         opts = {
             update_interval = 2000,
@@ -184,14 +153,6 @@ require('lazy').setup({
                 }
             })
         end
-    }, {'vimpostor/vim-lumen'}, {
-        'NeogitOrg/neogit',
-        dependencies = {
-            'nvim-lua/plenary.nvim', -- required
-            'sindrets/diffview.nvim', -- optional - Diff integration
-            'nvim-telescope/telescope.nvim' -- optional
-        },
-        config = true
     }, {
         'vhyrro/luarocks.nvim',
         priority = 1000,
@@ -300,7 +261,7 @@ require('lazy').setup({
                            function()
                 builtin.find_files({hidden = true})
             end, {})
-            vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+            vim.keymap.set('n', 'gb', builtin.buffers, {})
             vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, {})
             vim.keymap.set('n', 'gR', builtin.lsp_references, {})
 
@@ -368,9 +329,17 @@ require('lazy').setup({
         end
     }, {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        dependencies = 'nvim-treesitter/nvim-treesitter',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+            'RRethy/nvim-treesitter-textsubjects'
+        },
         config = function()
             require'nvim-treesitter.configs'.setup {
+                textsubjects = {
+                    enable = true,
+                    prev_selection = ',', -- (Optional) keymap to select the previous selection
+                    keymaps = {['.'] = 'textsubjects-smart'}
+                },
                 textobjects = {
                     select = {
                         enable = true,
@@ -412,6 +381,11 @@ require('lazy').setup({
                         -- * selection_mode: eg 'v'
                         -- and should return true or false
                         include_surrounding_whitespace = true
+                    },
+                    swap = {
+                        enable = true,
+                        swap_next = {["<leader>l"] = "@parameter.inner"},
+                        swap_previous = {["<leader>h"] = "@parameter.inner"}
                     }
                 }
             }
@@ -438,16 +412,21 @@ vim.opt.timeoutlen = 300
 
 vim.keymap.set('n', '<Esc>', ':nohl<CR>:echo<CR>')
 vim.keymap.set('n', '<leader>c', ':e ~/.config/nvim/init.lua<CR>')
-vim.keymap.set('n', '<leader>z', ':e ~/.zshrc<CR>')
 vim.keymap.set('n', 'gn', ':bnext<CR>')
 vim.keymap.set('n', 'gp', ':bprevious<CR>')
 
-vim.cmd [[
-  imap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
-  smap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
-  imap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
-  smap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
-]]
+vim.api.nvim_set_keymap('i', '<C-j>',
+                        'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<C-j>"',
+                        {expr = true, noremap = false})
+vim.api.nvim_set_keymap('s', '<C-j>',
+                        'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<C-j>"',
+                        {expr = true, noremap = false})
+vim.api.nvim_set_keymap('i', '<C-k>',
+                        'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-k>"',
+                        {expr = true, noremap = false})
+vim.api.nvim_set_keymap('s', '<C-k>',
+                        'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-k>"',
+                        {expr = true, noremap = false})
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "gleam",
