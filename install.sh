@@ -8,8 +8,8 @@ rm -rf ~/.config/alacritty &&
 	mkdir -p ~/.config/alacritty &&
 	stow alacritty -t ~/.config/alacritty
 
-rm -rf ~/.config/zsh &&
-	stow nvim -t ~/
+rm -rf ~/.zshrc &&
+	stow zsh -t ~/
 
 rm -rf ~/.tmux.conf &&
 	stow tmux -t ~/
