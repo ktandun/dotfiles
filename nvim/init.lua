@@ -511,6 +511,8 @@ require'lspconfig'.volar.setup {
     filetypes = {"vue"}
 }
 
+vim.diagnostic.config({float = {border = "double"}})
+
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
