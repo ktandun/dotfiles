@@ -4,19 +4,9 @@ import = [
 
 [font]
 size = 16.0
-
-[font.bold]
-family = "JetBrainsMono Nerd Font"
-style = "Bold"
-
-[font.bold_italic]
-family = "JetBrainsMono Nerd Font"
-style = "Bold Italic"
-
-[font.italic]
-family = "JetBrainsMono Nerd Font"
-style = "Italic"
+offset.y = 5
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+family = "UbuntuMono Nerd Font"
 style = "Regular"
+
