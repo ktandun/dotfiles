@@ -1,3 +1,16 @@
+local header = {
+    [[                                                                       ]],
+    [[  ██████   █████                   █████   █████  ███                  ]],
+    [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
+    [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
+    [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
+    [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
+    [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
+    [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
+    [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
+    [[                                                                       ]]
+}
+
 local home = vim.fn.expand('$HOME')
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -17,7 +30,21 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
-    {'Mofiqul/dracula.nvim'}, {
+    {
+        'mzarnitsa/psql',
+        config = function()
+            require('psql').setup({
+                database_name = 'kenzietandun',
+                execute_line = '<leader>e',
+                execute_selection = '<leader>e',
+                execute_paragraph = '<leader>r',
+
+                close_latest_result = '<leader>w',
+                close_all_results = '<leader>W'
+            })
+
+        end
+    }, {'Mofiqul/dracula.nvim'}, {
         "f-person/auto-dark-mode.nvim",
         opts = {
             update_interval = 2000,
@@ -38,21 +65,10 @@ require('lazy').setup({
         config = function()
             local alpha = require("alpha")
             local dashboard = require("alpha.themes.dashboard")
-            dashboard.section.header.val = {
-                [[                                                                       ]],
-                [[  ██████   █████                   █████   █████  ███                  ]],
-                [[ ░░██████ ░░███                   ░░███   ░░███  ░░░                   ]],
-                [[  ░███░███ ░███   ██████   ██████  ░███    ░███  ████  █████████████   ]],
-                [[  ░███░░███░███  ███░░███ ███░░███ ░███    ░███ ░░███ ░░███░░███░░███  ]],
-                [[  ░███ ░░██████ ░███████ ░███ ░███ ░░███   ███   ░███  ░███ ░███ ░███  ]],
-                [[  ░███  ░░█████ ░███░░░  ░███ ░███  ░░░█████░    ░███  ░███ ░███ ░███  ]],
-                [[  █████  ░░█████░░██████ ░░██████     ░░███      █████ █████░███ █████ ]],
-                [[ ░░░░░    ░░░░░  ░░░░░░   ░░░░░░       ░░░      ░░░░░ ░░░░░ ░░░ ░░░░░  ]],
-                [[                                                                       ]]
-            }
+            dashboard.section.header.val = header
 
             dashboard.section.buttons.val = {
-                dashboard.button("SPC f", " " .. " Find file",
+                dashboard.button("Cmd+p", " " .. " Find file",
                                  "<cmd> Telescope find_files <cr>")
             }
 
@@ -161,7 +177,14 @@ require('lazy').setup({
     }, {
         'stevearc/oil.nvim',
         keys = {{'<leader>o', '<cmd>Oil<cr>', desc = 'Oil'}},
-        opts = {skip_confirm_for_simple_edits = true},
+        opts = {
+            skip_confirm_for_simple_edits = true,
+            default_file_explorer = true,
+            columns = {
+                "icon", -- "permissions",
+                "size", "mtime"
+            }
+        },
         -- Optional dependencies
         dependencies = {'nvim-tree/nvim-web-devicons'}
     }, {'neovim/nvim-lspconfig'}, {
@@ -257,7 +280,7 @@ require('lazy').setup({
 
             local builtin = require('telescope.builtin')
 
-            vim.keymap.set('n', '<leader>f',
+            vim.keymap.set('n', '<D-p>',
                            function()
                 builtin.find_files({hidden = true})
             end, {})
