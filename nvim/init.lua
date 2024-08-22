@@ -215,7 +215,7 @@ require('lazy').setup({
             mason.setup({
                 ensure_installed = {
                     'bashls', 'lua_ls', 'biome', 'tailwindcss', 'basedpyright',
-                    'tsserver', 'volar'
+                    'tsserver', 'volar', 'csharp_ls'
                 }
             })
         end
@@ -474,20 +474,20 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp
                                                                       .protocol
                                                                       .make_client_capabilities())
 
-require'lspconfig'.bashls.setup {capabilities = capabilities}
+lspconfig.bashls.setup {capabilities = capabilities}
 
-require'lspconfig'.biome.setup {capabilities = capabilities}
+lspconfig.biome.setup {capabilities = capabilities}
 
-require'lspconfig'.lua_ls.setup {
+lspconfig.lua_ls.setup {
     capabilities = capabilities,
     settings = {Lua = {diagnostics = {globals = {'vim'}}}}
 }
 
-require'lspconfig'.gleam.setup {capabilities = capabilities}
+lspconfig.gleam.setup {capabilities = capabilities}
 
-require'lspconfig'.tailwindcss.setup {capabilities = capabilities}
+lspconfig.tailwindcss.setup {capabilities = capabilities}
 
-require'lspconfig'.tsserver.setup {
+lspconfig.tsserver.setup {
     capabilities = capabilities,
     init_options = {
         plugins = {
@@ -505,15 +505,15 @@ require'lspconfig'.tsserver.setup {
     }
 }
 
-require'lspconfig'.basedpyright.setup {
+lspconfig.basedpyright.setup {
     capabilities = capabilities,
     settings = {basedpyright = {analysis = {typeCheckingMode = 'basic'}}}
 }
 
-require'lspconfig'.volar.setup {
-    capabilities = capabilities,
-    filetypes = {"vue"}
-}
+lspconfig.volar.setup {capabilities = capabilities, filetypes = {"vue"}}
+
+-- requires dotnet8 and set DOTNET_ROOT env variable
+lspconfig.csharp_ls.setup {capabilities = capabilities, filetypes = {"cs"}}
 
 vim.diagnostic.config({float = {border = "double"}})
 
