@@ -460,25 +460,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
-local function get_directory_path_with_dots(path)
-    -- Define a pattern to match the directory path
-    local pattern = '(.*)/[^/]+$'
-    -- Use string.match to extract the directory path
-    local directory_path = string.match(path, pattern)
-    -- Replace slashes with dots
-    directory_path = string.gsub(directory_path, '/', '.')
-    return directory_path
-end
-
-function WriteNamespace()
-    -- Get the directory name
-    local directory_name = get_directory_path_with_dots(vim.fn.expand('%'))
-    -- Write the directory name to the current buffer
-    vim.fn.append('.', 'namespace ' .. directory_name .. ';')
-end
-
-vim.keymap.set('n', '<leader>ns', '<cmd>lua WriteNamespace()<CR>')
-
 -- nvim snippets with nvim-scissors
 vim.keymap.set('n', '<leader>se',
                function() require('scissors').editSnippet() end)
@@ -570,3 +551,23 @@ vim.lsp.handlers["textDocument/hover"] =
     vim.lsp.with(vim.lsp.handlers.hover, {
         border = "double" -- You can use "single", "double", "rounded", "solid", "shadow"
     })
+
+-- Switch between source and test file
+vim.keymap.set('n', '<leader>n', function()
+    local file_path = vim.fn.expand('%')
+    local src_pattern = "/src/"
+    local test_pattern = "/test/"
+
+    if file_path:match(src_pattern) then
+        local test_path = file_path:gsub(src_pattern, "/test/"):gsub("(%..*)$",
+                                                                     "_test%1")
+        vim.cmd("edit " .. test_path)
+    elseif file_path:match(test_pattern) then
+        local src_path = file_path:gsub(test_pattern, "/src/"):gsub(
+                             "_test(%..*)$", "%1")
+        vim.cmd("edit " .. src_path)
+    else
+        print("Not a source or test file")
+    end
+end, {noremap = true, silent = true})
+
