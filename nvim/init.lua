@@ -192,6 +192,7 @@ require('lazy').setup({
         config = function()
             vim.cmd [[
 				let g:neoformat_try_node_exe = 1 " try to find exe on node_modules
+				let g:neoformat_enabled_cs = ['csharpier']
 			]]
         end
     }, {
