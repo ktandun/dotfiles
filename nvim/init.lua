@@ -259,6 +259,13 @@ require('lazy').setup({
             -- telescope
             local telescope = require('telescope')
             telescope.setup({
+                pickers = {
+                    buffers = {
+                        show_all_buffers = true,
+                        sort_mru = true,
+                        mappings = {i = {["<c-d>"] = "delete_buffer"}}
+                    }
+                },
                 defaults = {
                     layout_strategy = 'vertical',
                     layout_config = {
@@ -282,7 +289,7 @@ require('lazy').setup({
 
             local builtin = require('telescope.builtin')
 
-            vim.keymap.set('n', '<D-p>',
+            vim.keymap.set('n', '<leader>p',
                            function()
                 builtin.find_files({hidden = true})
             end, {})
