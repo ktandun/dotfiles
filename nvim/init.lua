@@ -30,7 +30,7 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
-    {
+    {'norcalli/nvim-colorizer.lua'}, {
         'mzarnitsa/psql',
         config = function()
             require('psql').setup({
@@ -468,6 +468,8 @@ vim.keymap.set('n', '<leader>se',
 vim.keymap.set({'n', 'x'}, '<leader>sa',
                function() require('scissors').addNewSnippet() end)
 
+require'colorizer'.setup()
+
 -- LSP Servers
 
 local lspconfig = require('lspconfig')
@@ -572,3 +574,7 @@ vim.keymap.set('n', '<leader>n', function()
     end
 end, {noremap = true, silent = true})
 
+vim.keymap.set('n', '<leader>u', function()
+    local uuid = vim.fn.systemlist("uuidgen")[1]
+    vim.api.nvim_put({uuid}, "", true, true)
+end, {noremap = true, silent = true})
