@@ -30,7 +30,8 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
-    {'norcalli/nvim-colorizer.lua'}, {
+    {'norcalli/nvim-colorizer.lua'},
+    {"catppuccin/nvim", name = "catppuccin", priority = 1000}, {
         'mzarnitsa/psql',
         config = function()
             require('psql').setup({
@@ -54,7 +55,7 @@ require('lazy').setup({
             end,
             set_light_mode = function()
                 vim.api.nvim_set_option_value("background", "light", {})
-                vim.cmd("colorscheme vim")
+                vim.cmd("colorscheme catppuccin-latte")
             end
         }
     }, {
@@ -494,7 +495,7 @@ lspconfig.lua_ls.setup {
     settings = {Lua = {diagnostics = {globals = {'vim'}}}}
 }
 
-lspconfig.gleam.setup {capabilities = capabilities}
+lspconfig.gleam.setup {}
 
 lspconfig.tailwindcss.setup {capabilities = capabilities}
 
@@ -566,15 +567,15 @@ vim.lsp.handlers["textDocument/hover"] =
 -- Switch between source and test file
 vim.keymap.set('n', '<leader>n', function()
     local file_path = vim.fn.expand('%')
-    local src_pattern = "/src/"
-    local test_pattern = "/test/"
+    local src_pattern = "src/"
+    local test_pattern = "test/"
 
     if file_path:match(src_pattern) then
-        local test_path = file_path:gsub(src_pattern, "/test/"):gsub("(%..*)$",
-                                                                     "_test%1")
+        local test_path = file_path:gsub(src_pattern, "test/"):gsub("(%..*)$",
+                                                                    "_test%1")
         vim.cmd("edit " .. test_path)
     elseif file_path:match(test_pattern) then
-        local src_path = file_path:gsub(test_pattern, "/src/"):gsub(
+        local src_path = file_path:gsub(test_pattern, "src/"):gsub(
                              "_test(%..*)$", "%1")
         vim.cmd("edit " .. src_path)
     else
