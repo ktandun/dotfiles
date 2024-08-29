@@ -294,7 +294,7 @@ require('lazy').setup({
                            function()
                 builtin.find_files({hidden = true})
             end, {})
-            vim.keymap.set('n', 'gb', builtin.buffers, {})
+            vim.keymap.set('n', 'gh', builtin.buffers, {})
             vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, {})
             vim.keymap.set('n', 'gR', builtin.lsp_references, {})
 
