@@ -30,8 +30,13 @@ vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/snippets/')
 vim.opt.termguicolors = true
 
 require('lazy').setup({
-    {'norcalli/nvim-colorizer.lua'},
+    {
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons'
+    }, {'norcalli/nvim-colorizer.lua'},
     {"catppuccin/nvim", name = "catppuccin", priority = 1000}, {
+
         'mzarnitsa/psql',
         config = function()
             require('psql').setup({
@@ -479,6 +484,8 @@ vim.keymap.set({'n', 'x'}, '<leader>sa',
 
 require'colorizer'.setup()
 
+require'bufferline'.setup{}
+
 -- LSP Servers
 
 local lspconfig = require('lspconfig')
@@ -526,6 +533,14 @@ lspconfig.volar.setup {capabilities = capabilities, filetypes = {"vue"}}
 
 -- requires dotnet8 and set DOTNET_ROOT env variable
 lspconfig.csharp_ls.setup {capabilities = capabilities, filetypes = {"cs"}}
+
+-- lspconfig.postgres_lsp.setup {
+--     cmd = {'pglsp'},
+--     name = 'postgres_lsp',
+--     filetypes = {'sql'},
+--     single_file_support = true,
+--     root_dir = lspconfig.util.root_pattern 'root-file.txt'
+-- }
 
 vim.diagnostic.config({float = {border = "double"}})
 
@@ -587,3 +602,9 @@ vim.keymap.set('n', '<leader>u', function()
     local uuid = vim.fn.systemlist("uuidgen")[1]
     vim.api.nvim_put({uuid}, "", true, true)
 end, {noremap = true, silent = true})
+
+-- Auto format Gleam files on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.gleam",
+    callback = function() vim.cmd("Neoformat") end
+})
