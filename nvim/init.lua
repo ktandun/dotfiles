@@ -441,6 +441,8 @@ require('lazy').setup({
     }
 })
 
+vim.opt.autoread = true
+vim.opt.swapfile = false
 vim.opt.cursorline = true
 vim.opt.mouse = ''
 vim.opt.relativenumber = true
