@@ -11,6 +11,10 @@ vim.opt.signcolumn = 'yes:1'
 vim.opt.so = 5
 vim.opt.timeoutlen = 300
 
-vim.pack.add({'https://github.com/sbdchd/neoformat'})
+vim.keymap.set('n', '<leader>e', ':e ~/.config/nvim/init.lua<CR>')
+
+vim.pack.add({
+    'https://github.com/sbdchd/neoformat', 'https://github.com/nvim-treesitter/nvim-treesitter'
+})
 
 vim.keymap.set('n', '<F12>', ':Neoformat<CR>')
