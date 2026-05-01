@@ -32,7 +32,7 @@ vim.pack.add({
 -- color scheme
 
 require("catppuccin").setup({
-    flavour = "mocha" -- latte, frappe, macchiato, mocha
+    flavour = "auto" -- latte, frappe, macchiato, mocha
 })
 
 vim.cmd.colorscheme "catppuccin-nvim"
@@ -82,8 +82,5 @@ autocmd("LspAttach", {
 autocmd("BufWritePre", {
     group = augroup,
     pattern = "*",
-    callback = function()
-        vim.cmd("undojoin")
-        vim.cmd("Neoformat")
-    end
+    callback = function() vim.cmd("Neoformat") end
 })
