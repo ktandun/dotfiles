@@ -5,8 +5,12 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 # Add .NET Core SDK tools
 export PATH="$PATH:/Users/kenzietandun/.dotnet/tools"
 
+# HOMEBREW
+export HOMEBREW_AUTO_UPDATE_SECS=604800 # one week
+
 # DOTNET
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export ASPNETCORE_ENVIRONMENT=Development
 
 # FZF
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
@@ -20,6 +24,9 @@ export EDITOR=nvim
 # ALIASES
 alias anime='bash ~/dev/nyaa-up/run.sh'
 alias animeedit='nvim ~/dev/nyaa-up/run.sh'
+alias add='git add'
+alias c='claude'
+alias com='git commit'
 alias dev='cd ~/dev && cd $(fd -d 1 | fzf)'
 alias g='git'
 alias ll='ls -alh --color'
@@ -28,7 +35,9 @@ alias main='git checkout main'
 alias pmain='git fetch origin main:main'
 alias n='nvim'
 alias poe='open ~/Desktop/"Path of Exile 2 on GeForce NOW.gfnpc"'
+alias pp='git pull && git push'
 alias s='source venv/bin/activate'
+alias sta='git status'
 alias sing='streamlink https://twitch.tv/singsing best'
 alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
 alias tunnel='ssh -D 8001 -q -C -N ubuntu@140.238.207.231'
